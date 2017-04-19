@@ -19,6 +19,10 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Not found", 404)
 		return
 	}
+	if r.Method != "GET" {
+		http.Error(w,"Method not allowed",405)
+		return
+	}
 
 	// index.htmlを返す
 	http.ServeFile(w, r, "index.html")

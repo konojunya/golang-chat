@@ -3,15 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <title>simple golang chat</title>
-  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
   <div id="log"></div>
   <form id="form">
-    <input type="submit" value="Send">
     <input type="text" id="msg" size="64">
+    <input type="submit" value="Send">
   </form>
 
-  <script src="./js/script.js"></script>
+  <script>
+    window.onload = function(){
+      // コネクション
+      var conn;
+
+      var msg = document.getElementById("msg")
+      var log = document.getElementById("log")
+
+      function appendLog(item){
+        log.appendChild(item)
+      }
+
+      document.getElementById("form").onsubmit = function(){
+        if(!conn || !msg.value) return false;
+
+        conn.send(msg.value)
+        msg.value = ""
+        return false
+      }
+
+      if(window["WebSocket"]){
+        conn = new WebSocket("ws://"+document.location.host+"/ws");
+        conn.onclose = function(e){
+          var item = document.createElement("div")
+          item.innerHTML = "<b>Your browser does not support WebScokets.</b>"
+          appendLog(item)
+        }
+      }
+    }
+  </script>
 </body>
 </html>

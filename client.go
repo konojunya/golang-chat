@@ -24,8 +24,8 @@ const (
 )
 
 var (
-  newline = []byte{"\n"}
-  space = []byte{" "}
+  newline = []byte{'\n'}
+  space = []byte{' '}
 )
 
 var upgrader = websocket.Upgrader{
@@ -67,7 +67,7 @@ func (c *Client) readPump(){
 }
 
 func (c *Client) writePump() {
-  ticker := time.NewTicker(pingPeriod)
+  ticker := time.NewTicker(PING_PERIOD)
   defer func(){
     ticker.Stop()
     c.conn.Close()
